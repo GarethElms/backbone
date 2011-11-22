@@ -1,27 +1,49 @@
 //the model
 Task = Backbone.Model.extend({
 	defaults : {
+		// ELMS: Use defaults to keep your initialize function clean
+		//       from simple attribute defaults
 		status : "incomplete"
 	},
 	isComplete : function(){
+		//ELMS: Always remember to use get() rather than eg; this.status
 		return this.get("status") === "completed";
 	},
-	//normally you don't need to do this
-	//save, which is built in, will $.ajax to a remote URL
+	//normally you don't need to do this save, which is built in, will $.ajax to a remote URL
 	save : function(){
+		//ELMS: Yes save() is called by collection.create(). You can pass attributes
+		//      into save() to tell it which attributes to update. Here we are storing
+		//		the collection's models locally to a global array so we don't want
+		//		Backbone.sync to get hold of it. The default save() will go to sync
 		tasks.add(this);
 	},
 	//let the model figure out the mechanism
 	toggleStatus : function(){
+		//ELMS: This sets the model's status attribute using set() which runs validation
+		//	    and raises the "change" event. You can pass an error handler into set()
+		//      or catch "trigger" at a higher level. The source code is quite easy to
+		//      I'm enjoying picking this apart
 		this.get("status") == "incomplete" ? this.set({status : "completed"}) : this.set({status : "incomplete"});
 	}
 });
 
 //the collection
 Tasks = Backbone.Collection.extend({
+	//ELMS: A collection is collection of models of a given type
 	model : Task,
+
 	//if your tasks are stored in a database - set the RESTful URL here
 	//url : "/tasks" //is a prime example
+	//ELMS: We are overriding the save() in the model so backbone sync never gets
+	//      called and uses the url property. You can also make url() a method
+	//	    that returns a url based on whether the model is new or existing. Take
+	//      this example from VidPub :
+	//
+	//		url: function () {
+	//        return this.isNew() ? "/api/episodes/create" : "/api/episodes/edit/" + this.get("ID");
+	//
+	//	    Backbone uses REST so use action filter attributes like HttpGet, HttpPut etc...
+
 	//you could bind to this - or just use the length as below
 	completed : function(){
 		return  _.select(this.models, function(model){
@@ -36,9 +58,11 @@ Tasks = Backbone.Collection.extend({
 });
 
 //a global reference to the collection
+//ELMS: I think this should be in the router instance not global
 tasks = new Tasks();
 
 //The form
+//ELMS: This form houses just the main input where new ToDo items are created
 TaskFormView = Backbone.View.extend({
 	initialize : function(){
 		this.template = $("#formTemplate");

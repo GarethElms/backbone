@@ -23,6 +23,7 @@
         <h1>Todos</h1>
       </div>
 
+      <!-- These are the container divs where the templates are thrust -->
       <div class="content">
         <div id="todo-form"></div>
         <div id="todos">
@@ -32,6 +33,14 @@
       </div>
 
     </div>
+
+	  <p style="font-size:80%; width:400px; position:absolute; top:10px; right:10px;">
+	    <input id="fixthis1" type="checkbox" />
+		<label for="fixthis1">
+		Fix bug where editing a completed item resets the completed flag but
+		the "Clear X completed tasks" still deletes it as though it were completed
+		</label>
+	  </p>
 
     <ul id="instructions">
       <li>Double-click to edit a todo.</li>
@@ -50,7 +59,7 @@
 		</p>
     </div>
 
-  <!-- Templates -->
+    <!-- The main input control.where you create a new ToDo item -->
 	<script type="text/html" id="formTemplate">
 	<form id="todo-form">
 		<input id="new-todo" placeholder="What needs to be done?" type="text" />
@@ -59,6 +68,10 @@
 	</form>
 	</script>
 	
+	<!-- An individual ToDo item as displayed in the list of items
+	     
+		 Parameters: id, name
+		 -->
 	<script type="text/template" id="item-template">
 	  <div class="todo">
       <div class="display">
@@ -72,6 +85,11 @@
     </div>
 	</script>
 
+  <!-- The footer containing the number of incomplete tasks on the left
+       and a link to remove completed tasks on the right 
+
+	   Parameters: remaining, completed
+	   -->
   <script type="text/template" id="stats-template">
       <span class="todo-count">
         <span class="number">${remaining}</span>
