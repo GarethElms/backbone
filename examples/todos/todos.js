@@ -78,15 +78,21 @@ TaskFormView = Backbone.View.extend({
 		//capture the submit event
         //ELMS: events are limited to the views DOM element ("el"). This particular
         //      event is targetting the submit event on the #todo-form selector.
+        //      An HTML form with a single text input field raises the submit
+        //      event when you press enter. Never knew that!
 		"submit #todo-form" : "save"
 	},
 	render : function() {
         //ELMS: You'll call render in response to change events, or manually call it
-        //      when you're programmtically altering the model
+        //      when you're programmatically altering the model
 		var content = this.template.tmpl(); //ELMS: This could be put in initialize()
 		$(this.el).html(content);
 		return this;
 	},
+    //ELMS: This is triggered when enter is pressed on the single text input form. This
+    //      must be in the html spec coz all browsers raise this event when there is a
+    //      single text input on a form and you press enter. With two or more inputs
+    //      it doesn't raise the submit event, you need a submit button
 	save : function(){
 		//save
 		//read this directly. You could also just bind right to the form using the ModelBinder plugin
