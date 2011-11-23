@@ -45,6 +45,7 @@ Tasks = Backbone.Collection.extend({
 	//	    Backbone uses REST so use action filter attributes like HttpGet, HttpPut etc...
 
 	//you could bind to this - or just use the length as below
+    //ELMS: I'm not sure what he means "bind to this". 
 	completed : function(){
 		return  _.select(this.models, function(model){
 			return model.get("status") == "completed";
@@ -63,16 +64,26 @@ tasks = new Tasks();
 
 //The form
 //ELMS: This form houses just the main input where new ToDo items are created
+//      it is not the main list of ToDo items, that's TaskListView
 TaskFormView = Backbone.View.extend({
 	initialize : function(){
+        //ELMS: The template we'll use here. Backbone doesn't force you to use
+        //      jQuery templates at all, we could write directly to the DOM or
+        //      use a different templating library. What it does give you is a
+        //      well structured framework to organize your code and separate its
+        //      concerns
 		this.template = $("#formTemplate");
 	},
 	events : {
 		//capture the submit event
+        //ELMS: events are limited to the views DOM element ("el"). This particular
+        //      event is targetting the submit event on the #todo-form selector.
 		"submit #todo-form" : "save"
 	},
 	render : function() {
-		var content = this.template.tmpl();
+        //ELMS: You'll call render in response to change events, or manually call it
+        //      when you're programmtically altering the model
+		var content = this.template.tmpl(); //ELMS: This could be put in initialize()
 		$(this.el).html(content);
 		return this;
 	},
