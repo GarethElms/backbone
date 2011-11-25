@@ -103,6 +103,18 @@
       </span>
   </script>
 
+  <div id="log" style="border:1px solid #555; padding:10px; width:500px; background-color:#eee; position:absolute; top:10px; left:10px; height:500px; overflow:auto;">
+    <input type="button" id="clearLog" value="Clear log" />
+    <div id="logContents"></div>
+  </div>
+  <script type="text/javascript">
+  $("#clearLog").click(
+    function()
+    {
+        $("#logContents").empty();
+    });
+  </script>
+
   </body>
 
 </html>
